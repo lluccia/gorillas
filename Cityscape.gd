@@ -3,8 +3,8 @@ extends Node2D
 var screen_width = 640
 var screen_height = 350
 
-var building_blocks = 59
-var building_block_size = 640 / building_blocks
+var building_blocks = 60
+var building_block_size = screen_width / building_blocks
 
 var window_size = Vector2(4, 7)
 var window_distance = Vector2(10, 15)
@@ -31,7 +31,7 @@ var light_off = Color("#ff545454")
 
 var lights_on_percentage = 0.7
 
-func _ready():
+func generate():
 	rng.randomize()
 
 	var current_x = 0
@@ -49,13 +49,15 @@ func _ready():
 		var building_position = Vector2(current_x, screen_height - building_height_pixels)
 		building.set_position(building_position)
 
+		building.add_to_group("buildings")
+		
 		add_child(building)
-		add_windows(building)
+		_add_windows(building)
 		
 		current_x += building_width_blocks * building_block_size + 1
 		building_blocks -= building_width_blocks
 
-func add_windows(building):
+func _add_windows(building):
 	var current_position = Vector2(building.get_position().x + window_margin.x, 
 								   building.get_position().y + window_margin.y)
 	
