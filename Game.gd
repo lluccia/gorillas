@@ -17,5 +17,5 @@ func place_gorillas():
 func _place_gorilla(gorilla, building):
 	var gorilla_height = gorilla.texture.get_size().x
 	gorilla.position = Vector2(building.get_position().x + building.get_size().x / 2,
-							   building.get_position().y - gorilla_height / 2)
-	
+							   building.get_position().y - gorilla_height / 2 - 1)
+
