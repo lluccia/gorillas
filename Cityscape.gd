@@ -1,23 +1,24 @@
 extends Node2D
 
-var screen_width = 1024
-var screen_height = 600
+var screen_width = 640
+var screen_height = 350
 
 var building_blocks = 59
-var building_block_size = 1024 / building_blocks
+var building_block_size = 640 / building_blocks
 
-var window_size = Vector2(9, 18)
-var window_distance = Vector2(18, 35)
+var window_size = Vector2(4, 7)
+var window_distance = Vector2(10, 15)
+var window_margin = Vector2(3, 3)
 
 var min_width_blocks = 4
 var max_width_blocks = 7
 
-var min_height_pixels = 400
-var max_height_pixels = 100
+var min_height_pixels = 200
+var max_height_pixels = 50
 
 var rng = RandomNumberGenerator.new()
 
-var bottom_margin = 20
+var bottom_margin = 14
 
 var building_colors = [
 	Color("#ffa80000"),
@@ -55,7 +56,8 @@ func _ready():
 		building_blocks -= building_width_blocks
 
 func add_windows(building):
-	var current_position = Vector2(building.get_position().x + 8, building.get_position().y + 8)
+	var current_position = Vector2(building.get_position().x + window_margin.x, 
+								   building.get_position().y + window_margin.y)
 	
 	while (current_position.x < building.get_position().x + building.get_size().x - window_size.x ):
 		while (current_position.y < building.get_position().y + building.get_size().y - window_size.y):
@@ -79,6 +81,6 @@ func add_windows(building):
 			current_position.y += window_distance.y
 			
 		current_position.x += window_distance.x
-		current_position.y = building.get_position().y + 8
+		current_position.y = building.get_position().y + window_margin.y
 		
 	
