@@ -8,6 +8,9 @@ var _gorilla
 func before_each():
     _gorilla = Gorilla.new()
 
+func after_each():
+    _gorilla.free()
+
 func test_can_create_a_gorilla():
     assert_not_null(_gorilla)
 
@@ -21,7 +24,7 @@ func test_gorilla_can_throw_a_banana_at_x_dir():
     _gorilla.throw(banana, angle, speed)
     
     var speed_set = get_call_parameters(banana, 'set_speed', 0)[0]
-    assert_eq(speed_set.x, 100)
+    assert_eq(speed_set.x, 100.0)
 
 func test_gorilla_can_throw_a_banana_at_y_dir():
     var banana = double(Banana).new()
@@ -32,5 +35,5 @@ func test_gorilla_can_throw_a_banana_at_y_dir():
     _gorilla.throw(banana, angle, speed)
 
     var speed_set = get_call_parameters(banana, 'set_speed', 0)[0]
-    assert_eq(speed_set.y, 50)
+    assert_eq(speed_set.y, 50.0)
 

@@ -2,7 +2,7 @@
 
 Reimplementation of the classic QBasic Gorillas game using Godot engine.
 
-Work in progress, only the Cityscape generator is implemented.
+Work in progress, still not playable.
 
 Original game screenshot:
 
@@ -20,4 +20,3 @@ godot -d -s --path $PWD addons/gut/gut_cmdln.gd
 
 - Godot Engine (https://godotengine.org)
 - Gorillas game (https://en.wikipedia.org/wiki/Gorillas_(video_game))
-
