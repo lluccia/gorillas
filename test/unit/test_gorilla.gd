@@ -35,5 +35,5 @@ func test_gorilla_can_throw_a_banana_at_y_dir():
     _gorilla.throw(banana, angle, speed)
 
     var speed_set = get_call_parameters(banana, 'set_speed', 0)[0]
-    assert_eq(speed_set.y, 50.0)
+    assert_eq(speed_set.y, -50.0)
 

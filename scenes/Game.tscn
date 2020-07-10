@@ -1,15 +1,136 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scripts/game.gd" type="Script" id=1]
 [ext_resource path="res://scenes/Gorilla.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/sun.png" type="Texture" id=3]
+[ext_resource path="res://scripts/Cityscape.gd" type="Script" id=4]
+[ext_resource path="res://scripts/integerLineEdit.gd" type="Script" id=5]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 1 )
+
+[node name="Cityscape" type="Node2D" parent="."]
+script = ExtResource( 4 )
+
+[node name="sun" type="Sprite" parent="."]
+position = Vector2( 320, 25 )
+texture = ExtResource( 3 )
 
 [node name="p1" parent="." instance=ExtResource( 2 )]
 position = Vector2( 160, 175 )
 
 [node name="p2" parent="." instance=ExtResource( 2 )]
 position = Vector2( 480, 175 )
+
+[node name="HUD" type="Node2D" parent="."]
+position = Vector2( 288, 312 )
+
+[node name="player1_name" type="Label" parent="HUD"]
+margin_left = -280.0
+margin_top = -304.0
+margin_right = -229.0
+margin_bottom = -290.0
+text = "Player 1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="player2_name" type="Label" parent="HUD"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = 296.0
+margin_top = -304.0
+margin_right = 347.0
+margin_bottom = -290.0
+text = "Player 2"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="score" type="Node2D" parent="HUD"]
+
+[node name="ColorRect" type="ColorRect" parent="HUD/score"]
+margin_right = 72.0
+margin_bottom = 16.0
+color = Color( 0, 0, 0.658824, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="score_label" type="Label" parent="HUD/score"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_right = 67.0
+margin_bottom = 14.0
+text = "0>Score<0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InputBox" type="Node2D" parent="HUD"]
+position = Vector2( -288, -312 )
+
+[node name="angle_label" type="Label" parent="HUD/InputBox"]
+margin_left = 272.0
+margin_top = 72.0
+margin_right = 312.0
+margin_bottom = 86.0
+text = "Angle:"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="speed_label" type="Label" parent="HUD/InputBox"]
+margin_left = 272.0
+margin_top = 96.0
+margin_right = 327.0
+margin_bottom = 110.0
+text = "Velocity:"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="angle_input" type="LineEdit" parent="HUD/InputBox"]
+margin_left = 336.0
+margin_top = 64.0
+margin_right = 394.0
+margin_bottom = 88.0
+placeholder_text = "0"
+caret_blink = true
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="speed_input" type="LineEdit" parent="HUD/InputBox"]
+margin_left = 336.0
+margin_top = 88.0
+margin_right = 394.0
+margin_bottom = 112.0
+placeholder_text = "0"
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="throw_button" type="Button" parent="HUD/InputBox"]
+margin_left = 296.0
+margin_top = 120.0
+margin_right = 348.0
+margin_bottom = 140.0
+text = "throw!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="hit" from="p1" to="." method="_on_p1_hit"]
 [connection signal="hit" from="p2" to="." method="_on_p2_hit"]
+[connection signal="gui_input" from="HUD/InputBox/angle_input" to="HUD/InputBox/angle_input" method="_on_LineEdit_gui_input"]
+[connection signal="text_changed" from="HUD/InputBox/angle_input" to="HUD/InputBox/angle_input" method="_on_LineEdit_text_changed"]
+[connection signal="gui_input" from="HUD/InputBox/speed_input" to="HUD/InputBox/speed_input" method="_on_LineEdit_gui_input"]
+[connection signal="text_changed" from="HUD/InputBox/speed_input" to="HUD/InputBox/speed_input" method="_on_LineEdit_text_changed"]
+[connection signal="pressed" from="HUD/InputBox/throw_button" to="." method="_on_throw_button_pressed"]

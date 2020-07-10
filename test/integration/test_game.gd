@@ -65,12 +65,20 @@ func test_p1_is_first_to_play():
     assert_eq(_game._current_player, _p1)
 
 func test_after_p1_throw_is_p2_turn():
-    _game.current_player_throw()
+    _game.current_player_throw(45, 100)
     
     assert_eq(_game._current_player, _p2)
 
 func test_then_after_p2_is_p1_again():
-    _game.current_player_throw()
-    _game.current_player_throw()
+    _game.current_player_throw(45, 100)
+    _game.current_player_throw(45, 100)
     
     assert_eq(_game._current_player, _p1)
+
+func test_current_player_throws_banana():
+    var current_player_position = _game._current_player.position
+    
+    var banana = _game.current_player_throw(45, 100)
+    
+    assert_eq(banana.position, Vector2(current_player_position.x,
+                                       current_player_position.y - 20))
