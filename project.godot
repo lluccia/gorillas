@@ -15,7 +15,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Gorillas.bas"
+config/name="Gorillas"
 run/main_scene="res://scenes/Game.tscn"
 config/icon="res://assets/gorilla_arms_down.png"
 

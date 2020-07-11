@@ -30,8 +30,9 @@ func place_gorillas():
 
 func _place_gorilla(gorilla, building):
     var gorilla_height = 30
-    gorilla.set_position(Vector2(building.get_position().x + building.get_size().x / 2,
-                               building.get_position().y - gorilla_height / 2 - 1))
+    gorilla.set_position(Vector2(
+            building.get_position().x,
+            building.get_position().y - building.get_extents().y - gorilla_height / 2 - 1))
 
 func get_p1_score():
     return _p1_score
