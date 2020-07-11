@@ -1,7 +1,6 @@
 extends Area2D
 
-export (Vector2) var _extents = Vector2(50,100) setget set_extents, get_extents 
-signal hit
+export (Vector2) var _extents = Vector2(10, 10) setget set_extents, get_extents 
 
 var _color = Color.red
 var _top_left_position
@@ -29,6 +28,3 @@ func _ready():
 func _draw():
     var e = $Shape.shape.extents
     draw_rect(Rect2(e.x * -1, e.y * -1, e.x * 2, e.y * 2), _color)
-
-func _on_Building_area_entered(_area):
-    emit_signal("hit")

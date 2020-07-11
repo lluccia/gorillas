@@ -9,4 +9,3 @@ script = ExtResource( 1 )
 _extents = Vector2( 100, 200 )
 
 [node name="Shape" type="CollisionShape2D" parent="."]
-[connection signal="area_entered" from="." to="." method="_on_Building_area_entered"]

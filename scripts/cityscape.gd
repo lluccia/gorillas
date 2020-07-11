@@ -1,5 +1,7 @@
 extends Node2D
 
+signal hit
+
 var BuildingScene = load("res://scenes/Building.tscn")
 
 var screen_width = 640
@@ -55,10 +57,11 @@ func generate():
         building.set_size(Vector2(building_width_pixels, building_height_pixels))
 
         building.add_to_group("buildings")
+        building.connect("area_entered", self, "_on_Building_hit")
         
         add_child(building)
         _add_windows(building)
-        
+
         current_x += building.get_extents().x * 2 + 1
         building_blocks -= building_width_blocks
 
@@ -90,3 +93,5 @@ func _add_windows(building):
         current_position.y = building.get_position().y - building.get_extents().y + window_margin.y
         
     
+func _on_Building_hit(_area):
+    emit_signal("hit")
