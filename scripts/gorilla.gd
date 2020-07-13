@@ -10,5 +10,5 @@ func throw(banana, angle, speed):
 
     banana.set_speed(Vector2(speed_x, -speed_y))
 
-func _on_Gorilla_area_entered(_area):
-    emit_signal("hit")
+func _on_Gorilla_area_entered(banana):
+    emit_signal("hit", banana)

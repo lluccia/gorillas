@@ -16,7 +16,7 @@ func test_gorilla_is_hit_by_a_banana():
 
     yield(yield_to(gorilla, "hit", 4), YIELD)
     
-    assert_signal_emitted(gorilla, "hit")
+    assert_signal_emitted_with_parameters(gorilla, "hit", [banana])
     
     remove_child(gorilla)
     remove_child(banana)

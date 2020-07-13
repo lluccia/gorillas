@@ -4,12 +4,16 @@ var banana_scene = load("res://scenes/Banana.tscn")
 var game_scene = load("res://scenes/Game.tscn")
 
 var _game
+var _banana
+
 var _p1
 var _p2
 
 func before_each():
     _game = game_scene.instance()
     add_child(_game)
+    _banana = banana_scene.instance()
+    _game.add_child(_banana)
 
     _p1 = _game.get_node("p1")
     _p2 = _game.get_node("p2")
@@ -19,10 +23,10 @@ func after_each():
     _game.free()
 
 func _p1_scores():
-    _p2.emit_signal("hit")
+    _p2.emit_signal("hit", _banana)
 
 func _p2_scores():
-    _p1.emit_signal("hit")
+    _p1.emit_signal("hit", _banana)
 
 func test_get_set_p1_score():
     assert_accessors(_game, 'p1_score', 0, 3)

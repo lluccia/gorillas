@@ -58,8 +58,9 @@ func current_player_throw(angle, speed):
     add_child(banana)
 
     banana.set_gravity(_gravity)
-    banana.set_position(Vector2(_current_player.position.x,
-                                _current_player.position.y - 20))
+    banana.set_position(Vector2(
+            _current_player.position.x,
+            _current_player.position.y - 20))
 
     if _current_player == $p2:
         angle = 180 - angle
@@ -75,21 +76,28 @@ func current_player_throw(angle, speed):
 
     return banana
 
-func _on_p1_hit():
+func _remove_banana(banana):
+    remove_child(banana)
+    banana.queue_free()
+
+func _on_p1_hit(banana):
+    _remove_banana(banana)
     $Sounds/GorillaHit.play()
     _p2_score += 1
     _update_score()
     if (_p2_score == _max_score):
         emit_signal("game_over")
 
-func _on_p2_hit():
+func _on_p2_hit(banana):
+    _remove_banana(banana)
     $Sounds/GorillaHit.play()
     _p1_score += 1
     _update_score()
     if (_p1_score == _max_score):
         emit_signal("game_over")
 
-func _on_building_hit():
+func _on_building_hit(banana):
+    _remove_banana(banana)
     $Sounds/BuildingHit.play()
     
 func _update_score():
@@ -97,6 +105,6 @@ func _update_score():
 
 func _on_throw_button_pressed():
     current_player_throw(
-        int($HUD/InputBox/angle_input.text),
-        int($HUD/InputBox/speed_input.text))
+            int($HUD/InputBox/angle_input.text),
+            int($HUD/InputBox/speed_input.text))
 

@@ -93,5 +93,5 @@ func _add_windows(building):
         current_position.y = building.get_position().y - building.get_extents().y + window_margin.y
         
     
-func _on_Building_hit(_area):
-    emit_signal("hit")
+func _on_Building_hit(banana):
+    emit_signal("hit", banana)
