@@ -2,12 +2,9 @@
 
 Reimplementation of the classic QBasic Gorillas game using Godot engine.
 
-Work in progress, minimally playable.
-
 ## Game link
 
 https://lluccia.github.io/gorillas/Gorillas.html
-
 
 ## Original game screenshot
 
