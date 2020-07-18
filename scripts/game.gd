@@ -91,29 +91,39 @@ func _on_p1_hit(banana):
     _update_score()
     if (_p2_score == _max_score):
         emit_signal("game_over", "2")
+    else:
+        _show_current_player_input()
 
 func _on_p2_hit(banana):
     _remove_banana(banana)
     $Sounds/GorillaHit.play()
     _p1_score += 1
     _update_score()
+    _show_current_player_input()
     if (_p1_score == _max_score):
         emit_signal("game_over", "1")
+    else:
+        _show_current_player_input()
 
 func _on_building_hit(banana):
     _remove_banana(banana)
     $Sounds/BuildingHit.play()
+    _show_current_player_input()
+    
+func _show_current_player_input():
+    if _current_player == $p1:
+        $HUD/p1_input.visible = true
+    else:
+        $HUD/p2_input.visible = true
     
 func _update_score():
     $HUD/score/score_label.text =  str(_p1_score) + ">Score<" + str(_p2_score)
 
 func _on_p1_input_throw(angle, speed):
     $HUD/p1_input.visible = false
-    $HUD/p2_input.visible = true
     current_player_throw(angle, speed)
 
 func _on_p2_input_throw(angle, speed):
-    $HUD/p1_input.visible = true
     $HUD/p2_input.visible = false
     current_player_throw(angle, speed)
 
