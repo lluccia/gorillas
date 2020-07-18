@@ -3,6 +3,8 @@ extends "res://addons/gut/test.gd"
 var banana_scene = load("res://scenes/Banana.tscn")
 var game_scene = load("res://scenes/Game.tscn")
 
+var Banana = load("res://scripts/banana.gd")
+
 var _game
 var _banana
 
@@ -70,18 +72,7 @@ func test_when_p2_hits_max_score_game_is_over():
     assert_eq(_game.get_node("HUD/game_over").text, "Game Over!\nPlayer 2 wins!")
 
 func test_p1_is_first_to_play():
-    assert_eq(_game._current_player, _p1)
-
-func test_after_p1_throw_is_p2_turn():
-    _game.current_player_throw(45, 100)
-    
-    assert_eq(_game._current_player, _p2)
-
-func test_then_after_p2_is_p1_again():
-    _game.current_player_throw(45, 100)
-    _game.current_player_throw(45, 100)
-    
-    assert_eq(_game._current_player, _p1)
+    assert_is_p1_turn()
 
 func test_current_player_throws_banana():
     var current_player_position = _game._current_player.position
@@ -93,3 +84,33 @@ func test_current_player_throws_banana():
 
 func test_game_over_not_visible_on_start():
     assert_false(_game.get_node("HUD/game_over").visible)
+
+func test_when_banana_hits_killzone_its_next_player_turn():
+    var killzone = _game.get_node("killzone")
+    var banana = double(Banana).new()
+    
+    killzone.emit_signal("area_entered", banana)
+
+    assert_is_p2_turn()
+
+func test_when_p1_is_hit_its_p2_turn():
+    _p1.emit_signal("hit", _banana)
+
+    assert_is_p2_turn()
+
+func test_when_p2_is_hit_its_p2_turn():
+    _p2.emit_signal("hit", _banana)
+
+    assert_is_p2_turn()
+
+func test_after_2_hits_is_p1_again():
+    _p2.emit_signal("hit", _banana)
+    _p1.emit_signal("hit", _banana)
+
+    assert_is_p1_turn()
+
+func assert_is_p1_turn():
+    assert_eq(_game._current_player, _p1, "current player should be Player 1")
+
+func assert_is_p2_turn():
+    assert_eq(_game._current_player, _p2, "current player should be Player 2")
