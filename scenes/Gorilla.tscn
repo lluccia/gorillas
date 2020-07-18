@@ -1,18 +1,48 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/gorilla_arms_down.png" type="Texture" id=1]
 [ext_resource path="res://scripts/gorilla.gd" type="Script" id=2]
+[ext_resource path="res://assets/gorilla_left_arm.png" type="Texture" id=3]
+[ext_resource path="res://assets/gorilla_right_arm.png" type="Texture" id=4]
+[ext_resource path="res://assets/audio/gorilla_dance_move.wav" type="AudioStream" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 14.4435, 14.9081 )
 
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "default",
+"speed": 1.0
+}, {
+"frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 3 ) ],
+"loop": false,
+"name": "dance",
+"speed": 2.0
+}, {
+"frames": [ ExtResource( 4 ), ExtResource( 1 ) ],
+"loop": false,
+"name": "throw_left",
+"speed": 2.0
+}, {
+"frames": [ ExtResource( 3 ), ExtResource( 1 ) ],
+"loop": false,
+"name": "throw_right",
+"speed": 2.0
+} ]
+
 [node name="Gorilla" type="Area2D"]
 script = ExtResource( 2 )
-
-[node name="Sprite" type="Sprite" parent="."]
-texture = ExtResource( 1 )
 
 [node name="Shape" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 2 )
+playing = true
+
+[node name="DanceMove" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 5 )
 [connection signal="area_entered" from="." to="." method="_on_Gorilla_area_entered"]
+[connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]

@@ -57,7 +57,6 @@ func set_max_score(max_score):
     _max_score = max_score
 
 func current_player_throw(angle, speed):
-    
     var banana = banana_scene.instance()
     add_child(banana)
 
@@ -68,7 +67,7 @@ func current_player_throw(angle, speed):
 
     if _current_player == $p2:
         angle = 180 - angle
-        
+
     _current_player.throw(banana, angle, speed)
     $Sounds/Throw.play()
 
@@ -86,22 +85,37 @@ func _remove_banana(banana):
     remove_child(banana)
     banana.queue_free()
 
-func _on_p1_hit(banana):
-    _remove_banana(banana)
+func _play_gorilla_hit():
     $Sounds/GorillaHit.play()
+    yield($Sounds/GorillaHit, "finished")
     
+func _gorilla_dance(player):
+    player.dance()
+    yield(player, "dance_finished")
+    
+func _on_p1_hit(banana):
     _p2_score += 1
     _update_score()
+
+    _remove_banana(banana)
+    yield(_play_gorilla_hit(), "completed")
+    
+    yield(_gorilla_dance($p2), "completed")
+
     _switch_player()
 
     if (_p2_score == _max_score):
         emit_signal("game_over", "2")
 
 func _on_p2_hit(banana):
-    _remove_banana(banana)
-    $Sounds/GorillaHit.play()
     _p1_score += 1
     _update_score()
+
+    _remove_banana(banana)
+    yield(_play_gorilla_hit(), "completed")
+    
+    yield(_gorilla_dance($p1), "completed")
+
     _switch_player()
 
     if (_p1_score == _max_score):

@@ -7,8 +7,8 @@ var BuildingScene = load("res://scenes/Building.tscn")
 var screen_width = 640
 var screen_height = 350
 
-var building_blocks = 60
-var building_block_size = screen_width / building_blocks
+var building_blocks = 63
+var building_block_size = 10
 
 var window_size = Vector2(4, 7)
 var window_distance = Vector2(10, 15)
@@ -42,7 +42,7 @@ func generate():
     var current_x = 0
     
     while (building_blocks > 0):
-        var building_width_blocks = rng.randi_range(min_width_blocks,max_width_blocks)
+        var building_width_blocks = min(building_blocks, rng.randi_range(min_width_blocks, max_width_blocks))
 
         var building_width_pixels = building_width_blocks * building_block_size
         var building_height_pixels = rng.randi_range(min_height_pixels,max_height_pixels)
