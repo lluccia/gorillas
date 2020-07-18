@@ -14,7 +14,8 @@ func test_gorilla_is_hit_by_a_banana():
     banana.set_position(Vector2(100, 180))
     banana.set_gravity(10)
 
-    yield(yield_to(gorilla, "hit", 4), YIELD)
+    watch_signals(gorilla)
+    yield(yield_for(2), YIELD)
     
     assert_signal_emitted_with_parameters(gorilla, "hit", [banana])
     

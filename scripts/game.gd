@@ -22,6 +22,10 @@ func _ready():
     $Cityscape.generate()
     place_gorillas()
     
+    $HUD/p1_input.visible = true
+    $HUD/p2_input.visible = false
+    $HUD/game_over.visible = false
+    
 func place_gorillas():
     var buildings = get_tree().get_nodes_in_group("buildings")
     
@@ -86,7 +90,7 @@ func _on_p1_hit(banana):
     _p2_score += 1
     _update_score()
     if (_p2_score == _max_score):
-        emit_signal("game_over")
+        emit_signal("game_over", "2")
 
 func _on_p2_hit(banana):
     _remove_banana(banana)
@@ -94,7 +98,7 @@ func _on_p2_hit(banana):
     _p1_score += 1
     _update_score()
     if (_p1_score == _max_score):
-        emit_signal("game_over")
+        emit_signal("game_over", "1")
 
 func _on_building_hit(banana):
     _remove_banana(banana)
@@ -103,8 +107,19 @@ func _on_building_hit(banana):
 func _update_score():
     $HUD/score/score_label.text =  str(_p1_score) + ">Score<" + str(_p2_score)
 
-func _on_throw_button_pressed():
-    current_player_throw(
-            int($HUD/InputBox/angle_input.text),
-            int($HUD/InputBox/speed_input.text))
+func _on_p1_input_throw(angle, speed):
+    $HUD/p1_input.visible = false
+    $HUD/p2_input.visible = true
+    current_player_throw(angle, speed)
 
+func _on_p2_input_throw(angle, speed):
+    $HUD/p1_input.visible = true
+    $HUD/p2_input.visible = false
+    current_player_throw(angle, speed)
+
+func _on_Game_game_over(winner):
+    $HUD/p1_input.visible = false
+    $HUD/p2_input.visible = false
+    
+    $HUD/game_over.text = "Game Over!\nPlayer %s wins!" % winner
+    $HUD/game_over.visible = true

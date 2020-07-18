@@ -55,6 +55,8 @@ func test_when_p1_hits_max_score_game_is_over():
     _p1_scores()
 
     assert_signal_emitted(_game, "game_over")
+    
+    assert_eq(_game.get_node("HUD/game_over").text, "Game Over!\nPlayer 1 wins!")
 
 func test_when_p2_hits_max_score_game_is_over():
     watch_signals(_game)
@@ -64,6 +66,8 @@ func test_when_p2_hits_max_score_game_is_over():
     _p2_scores()
 
     assert_signal_emitted(_game, "game_over")
+
+    assert_eq(_game.get_node("HUD/game_over").text, "Game Over!\nPlayer 2 wins!")
 
 func test_p1_is_first_to_play():
     assert_eq(_game._current_player, _p1)
@@ -86,3 +90,6 @@ func test_current_player_throws_banana():
     
     assert_eq(banana.position, Vector2(current_player_position.x,
                                        current_player_position.y - 20))
+
+func test_game_over_not_visible_on_start():
+    assert_false(_game.get_node("HUD/game_over").visible)
