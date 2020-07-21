@@ -9,6 +9,7 @@ var _p2_score = 0
 var _max_score = 3
 
 var _gravity = 30
+var _wind = 0
 
 var _current_player
 
@@ -17,6 +18,9 @@ var rng = RandomNumberGenerator.new()
 func _ready():
     rng.randomize()
 
+    _wind = rng.randi_range(-50, 50)
+    $wind.strength = _wind
+    
     _current_player = $p1
     
     $Cityscape.generate()
@@ -61,14 +65,18 @@ func current_player_throw(angle, speed):
     add_child(banana)
 
     banana.set_gravity(_gravity)
+    banana.set_wind(_wind)
     banana.set_position(Vector2(
             _current_player.position.x,
             _current_player.position.y - 20))
+
+    banana.connect("lost", self, "_on_banana_lost")
 
     if _current_player == $p2:
         angle = 180 - angle
 
     _current_player.throw(banana, angle, speed)
+    $Sounds/Throw.position = _current_player.position
     $Sounds/Throw.play()
 
     return banana
@@ -150,7 +158,7 @@ func _on_Game_game_over(winner):
     $HUD/game_over.text = "Game Over!\nPlayer %s wins!" % winner
     $HUD/game_over.visible = true
 
-func _on_killzone_area_entered(banana):
+func _on_banana_lost(banana):
     _remove_banana(banana)
 
     _switch_player()

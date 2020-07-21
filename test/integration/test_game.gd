@@ -87,14 +87,6 @@ func test_current_player_throws_banana():
 func test_game_over_not_visible_on_start():
     assert_false(_game.get_node("HUD/game_over").visible)
 
-func test_when_banana_hits_killzone_its_next_player_turn():
-    var killzone = _game.get_node("killzone")
-    var banana = double(Banana).new()
-    
-    killzone.emit_signal("area_entered", banana)
-
-    assert_is_p2_turn()
-
 # TODO - disabled - needs review (hit dance delays player turn change)
 func _test_when_p1_is_hit_its_p2_turn():
     _p1.emit_signal("hit", _banana)

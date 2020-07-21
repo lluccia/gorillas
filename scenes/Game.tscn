@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scripts/game.gd" type="Script" id=1]
 [ext_resource path="res://scenes/Gorilla.tscn" type="PackedScene" id=2]
@@ -8,12 +8,7 @@
 [ext_resource path="res://assets/audio/throw.wav" type="AudioStream" id=6]
 [ext_resource path="res://assets/audio/gorilla_hit.wav" type="AudioStream" id=7]
 [ext_resource path="res://assets/audio/building_hit.wav" type="AudioStream" id=8]
-
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 10, 700 )
-
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 10, 700 )
+[ext_resource path="res://scripts/wind.gd" type="Script" id=9]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 1 )
@@ -115,19 +110,13 @@ stream = ExtResource( 8 )
 [node name="GorillaHit" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource( 7 )
 
-[node name="killzone" type="Area2D" parent="."]
-
-[node name="killzone1" type="CollisionShape2D" parent="killzone"]
-position = Vector2( -15, -350 )
-shape = SubResource( 1 )
-
-[node name="killzone2" type="CollisionShape2D" parent="killzone"]
-position = Vector2( 655, -350 )
-shape = SubResource( 2 )
+[node name="wind" type="Node2D" parent="."]
+position = Vector2( 320, 345 )
+script = ExtResource( 9 )
+strength = 10
 [connection signal="game_over" from="." to="." method="_on_Game_game_over"]
 [connection signal="hit" from="Cityscape" to="." method="_on_building_hit"]
 [connection signal="hit" from="p1" to="." method="_on_p1_hit"]
 [connection signal="hit" from="p2" to="." method="_on_p2_hit"]
 [connection signal="throw" from="HUD/p1_input" to="." method="_on_p1_input_throw"]
 [connection signal="throw" from="HUD/p2_input" to="." method="_on_p2_input_throw"]
-[connection signal="area_entered" from="killzone" to="." method="_on_killzone_area_entered"]
