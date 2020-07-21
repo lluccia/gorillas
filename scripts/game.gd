@@ -12,6 +12,7 @@ var _gravity = 30
 var _wind = 0
 
 var _current_player
+var _banana
 
 var rng = RandomNumberGenerator.new()
 
@@ -61,25 +62,26 @@ func set_max_score(max_score):
     _max_score = max_score
 
 func current_player_throw(angle, speed):
-    var banana = banana_scene.instance()
-    add_child(banana)
+    _banana = banana_scene.instance()
+    add_child(_banana)
 
-    banana.set_gravity(_gravity)
-    banana.set_wind(_wind)
-    banana.set_position(Vector2(
+    _banana.set_gravity(_gravity)
+    _banana.set_wind(_wind)
+    _banana.set_position(Vector2(
             _current_player.position.x,
             _current_player.position.y - 20))
 
-    banana.connect("lost", self, "_on_banana_lost")
+    _banana.connect("lost", self, "_on_banana_lost")
 
     if _current_player == $p2:
         angle = 180 - angle
 
-    _current_player.throw(banana, angle, speed)
-    $Sounds/Throw.position = _current_player.position
+    _current_player.throw(_banana, angle, speed)
+    
+    $Sounds/Throw.position = _banana.position
     $Sounds/Throw.play()
 
-    return banana
+    return _banana
 
 func _switch_player():
     if _current_player == $p1:
@@ -89,11 +91,12 @@ func _switch_player():
     
     _show_current_player_input()
 
-func _remove_banana(banana):
-    remove_child(banana)
-    banana.queue_free()
+func _remove_banana():
+    remove_child(_banana)
+    _banana.queue_free()
 
 func _play_gorilla_hit():
+    $Sounds/GorillaHit.position = _banana.position
     $Sounds/GorillaHit.play()
     yield($Sounds/GorillaHit, "finished")
     
@@ -105,7 +108,7 @@ func _on_p1_hit(banana):
     _p2_score += 1
     _update_score()
 
-    _remove_banana(banana)
+    _remove_banana()
     yield(_play_gorilla_hit(), "completed")
     
     yield(_gorilla_dance($p2), "completed")
@@ -119,7 +122,7 @@ func _on_p2_hit(banana):
     _p1_score += 1
     _update_score()
 
-    _remove_banana(banana)
+    _remove_banana()
     yield(_play_gorilla_hit(), "completed")
     
     yield(_gorilla_dance($p1), "completed")
@@ -130,8 +133,10 @@ func _on_p2_hit(banana):
         emit_signal("game_over", "1")
 
 func _on_building_hit(banana):
-    _remove_banana(banana)
+    $Sounds/BuildingHit.position = _banana.position
     $Sounds/BuildingHit.play()
+    
+    _remove_banana()
     _switch_player()
     
 func _show_current_player_input():
@@ -159,6 +164,6 @@ func _on_Game_game_over(winner):
     $HUD/game_over.visible = true
 
 func _on_banana_lost(banana):
-    _remove_banana(banana)
+    _remove_banana()
 
     _switch_player()
