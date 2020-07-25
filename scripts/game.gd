@@ -92,11 +92,14 @@ func _switch_player():
     _show_current_player_input()
 
 func _remove_banana():
-    remove_child(_banana)
-    _banana.queue_free()
+    if _banana:
+        remove_child(_banana)
+        _banana.queue_free()
 
 func _play_gorilla_hit():
-    $Sounds/GorillaHit.position = _banana.position
+    if _banana:
+        $Sounds/GorillaHit.position = _banana.position
+    
     $Sounds/GorillaHit.play()
     yield($Sounds/GorillaHit, "finished")
     
@@ -104,7 +107,7 @@ func _gorilla_dance(player):
     player.dance()
     yield(player, "dance_finished")
     
-func _on_p1_hit(banana):
+func _on_p1_hit(_area):
     _p2_score += 1
     _update_score()
 
@@ -118,7 +121,7 @@ func _on_p1_hit(banana):
     if (_p2_score == _max_score):
         emit_signal("game_over", "2")
 
-func _on_p2_hit(banana):
+func _on_p2_hit(_area):
     _p1_score += 1
     _update_score()
 
@@ -132,7 +135,7 @@ func _on_p2_hit(banana):
     if (_p1_score == _max_score):
         emit_signal("game_over", "1")
 
-func _on_building_hit(banana):
+func _on_building_hit(_area):
     $Sounds/BuildingHit.position = _banana.position
     $Sounds/BuildingHit.play()
     
@@ -163,7 +166,7 @@ func _on_Game_game_over(winner):
     $HUD/game_over.text = "Game Over!\nPlayer %s wins!" % winner
     $HUD/game_over.visible = true
 
-func _on_banana_lost(banana):
+func _on_banana_lost(_area):
     _remove_banana()
 
     _switch_player()
