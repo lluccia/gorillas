@@ -3,6 +3,7 @@ extends Node2D
 signal game_over
 
 var banana_scene = load("res://scenes/Banana.tscn")
+var explosion_scene = load("res://scenes/Explosion.tscn")
 
 var _p1_score = 0
 var _p2_score = 0
@@ -89,6 +90,9 @@ func _switch_player():
     else:
         _current_player = $p1
     
+    for explosion in get_tree().get_nodes_in_group("exploded_gorilla"):
+        explosion.queue_free()
+    
     _show_current_player_input()
 
 func _remove_banana():
@@ -103,6 +107,15 @@ func _play_gorilla_hit():
     $Sounds/GorillaHit.play()
     yield($Sounds/GorillaHit, "finished")
     
+func _explode_gorilla(player):
+    yield(get_tree().create_timer(0.3), "timeout")
+    var explosion = explosion_scene.instance()
+    add_child(explosion)
+    explosion.position = player.position
+    explosion.playGorillaExplosion()
+    
+    explosion.add_to_group("exploded_gorilla")
+    
 func _gorilla_dance(player):
     player.dance()
     yield(player, "dance_finished")
@@ -111,6 +124,8 @@ func _on_p1_hit(_area):
     _p2_score += 1
     _update_score()
 
+    _explode_gorilla($p1)
+    
     _remove_banana()
     yield(_play_gorilla_hit(), "completed")
     
@@ -125,6 +140,8 @@ func _on_p2_hit(_area):
     _p1_score += 1
     _update_score()
 
+    _explode_gorilla($p2)
+    
     _remove_banana()
     yield(_play_gorilla_hit(), "completed")
     
@@ -136,6 +153,11 @@ func _on_p2_hit(_area):
         emit_signal("game_over", "1")
 
 func _on_building_hit(_area):
+    var explosion = explosion_scene.instance()
+    add_child(explosion)
+    explosion.position = _area.position
+    explosion.playBuildingExplosion()
+    
     $Sounds/BuildingHit.position = _banana.position
     $Sounds/BuildingHit.play()
     

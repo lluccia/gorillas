@@ -1,0 +1,87 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://scripts/fireball.gd" type="Script" id=1]
+[ext_resource path="res://scripts/explosion.gd" type="Script" id=2]
+[ext_resource path="res://scripts/exploded_space.gd" type="Script" id=3]
+
+[sub_resource type="Animation" id=1]
+resource_name = "building_explosion"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("ratio/fireball:radius")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 0.3, 1, 1 ),
+"update": 0,
+"values": [ 0, 10, 0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ratio/exploded_space:radius")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0, 10 ]
+}
+
+[sub_resource type="Animation" id=2]
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("ratio/fireball:radius")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 0.3, 1, 1 ),
+"update": 0,
+"values": [ 0, 34, 0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ratio/exploded_space:radius")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0, 34 ]
+}
+
+[node name="Explosion" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+margin_left = -170.0
+margin_top = -90.0
+margin_right = 215.0
+margin_bottom = 140.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Animation" type="AnimationPlayer" parent="."]
+anims/building_explosion = SubResource( 1 )
+anims/gorilla_explosion = SubResource( 2 )
+
+[node name="ratio" type="Node2D" parent="."]
+scale = Vector2( 1, 0.46 )
+
+[node name="exploded_space" type="Node2D" parent="ratio"]
+script = ExtResource( 3 )
+
+[node name="fireball" type="Node2D" parent="ratio"]
+script = ExtResource( 1 )
+radius = 0
