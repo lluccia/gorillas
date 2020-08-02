@@ -17,5 +17,4 @@ func _on_LineEdit_text_changed(new_text):
 
     previousCaretPosition = caret_position
 
-func _on_LineEdit_gui_input(_event):
-    previousCaretPosition = caret_position
+

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://scripts/game.gd" type="Script" id=1]
 [ext_resource path="res://scenes/Gorilla.tscn" type="PackedScene" id=2]
@@ -9,6 +9,11 @@
 [ext_resource path="res://assets/audio/gorilla_hit.wav" type="AudioStream" id=7]
 [ext_resource path="res://assets/audio/building_hit.wav" type="AudioStream" id=8]
 [ext_resource path="res://scripts/wind.gd" type="Script" id=9]
+[ext_resource path="res://assets/ModernDOS8x14.ttf" type="DynamicFontData" id=10]
+[ext_resource path="res://assets/dos_theme.tres" type="Theme" id=11]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 10 )
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 1 )
@@ -32,6 +37,7 @@ margin_left = 10.0
 margin_top = 10.0
 margin_right = 61.0
 margin_bottom = 24.0
+custom_fonts/font = SubResource( 1 )
 text = "Player 1"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -40,10 +46,11 @@ __meta__ = {
 [node name="player2_name" type="Label" parent="HUD"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = 580.0
+margin_left = 565.0
 margin_top = 10.0
-margin_right = 631.0
+margin_right = 629.0
 margin_bottom = 24.0
+theme = ExtResource( 11 )
 text = "Player 2"
 align = 2
 __meta__ = {
@@ -71,6 +78,7 @@ margin_left = 288.0
 margin_top = 304.0
 margin_right = 360.0
 margin_bottom = 320.0
+theme = ExtResource( 11 )
 text = "0>Score<0"
 align = 1
 valign = 1
@@ -79,10 +87,10 @@ __meta__ = {
 }
 
 [node name="p1_input" parent="HUD" instance=ExtResource( 5 )]
-position = Vector2( 70, 60 )
+position = Vector2( 60, 50 )
 
 [node name="p2_input" parent="HUD" instance=ExtResource( 5 )]
-position = Vector2( 570, 70 )
+position = Vector2( 575, 50 )
 
 [node name="game_over" type="Label" parent="HUD"]
 anchor_left = 0.5
@@ -91,6 +99,7 @@ margin_left = 270.0
 margin_top = 80.0
 margin_right = 370.0
 margin_bottom = 130.0
+theme = ExtResource( 11 )
 text = "Game Over!
 Player _ wins"
 align = 1

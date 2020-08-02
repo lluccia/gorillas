@@ -1,16 +1,18 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scripts/integerLineEdit.gd" type="Script" id=1]
 [ext_resource path="res://scripts/throw_panel.gd" type="Script" id=2]
+[ext_resource path="res://assets/dos_theme.tres" type="Theme" id=4]
 
 [node name="throw_panel" type="Node2D"]
 script = ExtResource( 2 )
 
 [node name="angle_label" type="Label" parent="."]
-margin_left = -60.0
+margin_left = -50.0
 margin_top = -20.0
-margin_right = -20.0
+margin_right = -2.0
 margin_bottom = -6.0
+theme = ExtResource( 4 )
 text = "Angle:"
 align = 2
 __meta__ = {
@@ -18,10 +20,10 @@ __meta__ = {
 }
 
 [node name="speed_label" type="Label" parent="."]
-margin_left = -60.0
-margin_top = 10.0
-margin_right = -5.0
-margin_bottom = 24.0
+margin_left = -50.0
+margin_right = 22.0
+margin_bottom = 14.0
+theme = ExtResource( 4 )
 text = "Velocity:"
 align = 2
 __meta__ = {
@@ -29,11 +31,15 @@ __meta__ = {
 }
 
 [node name="angle_input" type="LineEdit" parent="."]
-margin_top = -28.0
-margin_right = 60.0
-margin_bottom = -3.0
+margin_left = 30.0
+margin_top = -20.0
+margin_right = 54.0
+margin_bottom = -6.0
 focus_next = NodePath("../speed_input")
+theme = ExtResource( 4 )
 max_length = 3
+context_menu_enabled = false
+selecting_enabled = false
 placeholder_text = "0"
 caret_blink = true
 script = ExtResource( 1 )
@@ -42,30 +48,24 @@ __meta__ = {
 }
 
 [node name="speed_input" type="LineEdit" parent="."]
-margin_top = 3.0
-margin_right = 60.0
-margin_bottom = 28.0
-focus_next = NodePath("../throw_button")
+margin_left = 30.0
+margin_right = 54.0
+margin_bottom = 14.0
+theme = ExtResource( 4 )
 max_length = 3
+context_menu_enabled = false
+selecting_enabled = false
 placeholder_text = "0"
+caret_blink = true
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="throw_button" type="Button" parent="."]
-margin_left = -30.0
-margin_top = 40.0
-margin_right = 30.0
-margin_bottom = 60.0
-focus_next = NodePath("../angle_input")
-text = "throw!"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 [connection signal="visibility_changed" from="." to="." method="_on_throw_panel_visibility_changed"]
 [connection signal="gui_input" from="angle_input" to="angle_input" method="_on_LineEdit_gui_input"]
 [connection signal="text_changed" from="angle_input" to="angle_input" method="_on_LineEdit_text_changed"]
+[connection signal="text_entered" from="angle_input" to="." method="_on_angle_input_text_entered"]
+[connection signal="focus_exited" from="speed_input" to="." method="_on_speed_input_focus_exited"]
 [connection signal="gui_input" from="speed_input" to="speed_input" method="_on_LineEdit_gui_input"]
 [connection signal="text_changed" from="speed_input" to="speed_input" method="_on_LineEdit_text_changed"]
-[connection signal="pressed" from="throw_button" to="." method="_on_throw_button_pressed"]
+[connection signal="text_entered" from="speed_input" to="." method="_on_speed_input_text_entered"]
